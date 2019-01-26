@@ -44,6 +44,8 @@ window.onload = function(){
     function create ()
     {
 
+        this.input.addPointer(1);
+
         this.cameras.main.setBackgroundColor('#9aece1'); 
         platforms = this.physics.add.staticGroup();
 
@@ -125,23 +127,18 @@ window.onload = function(){
 
     function update ()
     {
-
-        if (cursors.left.isDown)
+        if (this.input.pointer1.isDown || cursors.left.isDown || cursors.right.isDown)
         {
-            player.setVelocityX(-160);
-
-            player.anims.play('left', true);
-        }
-        else if (cursors.right.isDown)
-        {
-            player.setVelocityX(160);
-
-            player.anims.play('right', true);
-        }
-        else
-        {
+            if (this.input.pointer1.x < 540 || cursors.left.isDown){
+                player.setVelocityX(-160);
+                player.anims.play('left', true);
+            } 
+            if (this.input.pointer1.x > 540 || cursors.right.isDown){
+                player.setVelocityX(160);
+                player.anims.play('right', true);
+            }
+        } else {
             player.setVelocityX(0);
-
             player.anims.play('turn');
         }
 
