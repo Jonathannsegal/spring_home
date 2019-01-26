@@ -1,7 +1,7 @@
 var config = {
         type: Phaser.AUTO,
-        width: 800,
-        height: 600,
+        width: 1080,
+        height: 1920,
         physics: {
             default: 'arcade',
             arcade: {
@@ -21,8 +21,11 @@ var config = {
     var platforms;
     var cursors;
 
+window.onload = function(){
     var game = new Phaser.Game(config);
-
+    resize();
+    window.addEventListener("resize", resize, false);
+}
     function preload ()
     {
         this.load.image('sky', 'assets/sky.png');
@@ -40,9 +43,8 @@ var config = {
 
     function create ()
     {
-        this.add.image(400, 300, 'sky');
 
-
+        this.cameras.main.setBackgroundColor('#9aece1'); 
         platforms = this.physics.add.staticGroup();
 
         platforms.create(400, 568, 'ground').setScale(2).refreshBody();
@@ -52,6 +54,8 @@ var config = {
         player = this.physics.add.sprite(100, 450, 'dude');
         player.body.setGravityY(70);
         player.setCollideWorldBounds(true);
+
+        this.cameras.main.startFollow(player, true);
 
         this.anims.create({
             key: 'left',
@@ -169,3 +173,19 @@ var config = {
         saw.setVelocityY(-Yvelocity);
 
     }
+
+function resize() {
+    var canvas = document.querySelector("canvas");
+    var windowWidth = window.innerWidth;
+    var windowHeight = window.innerHeight;
+    var windowRatio = windowWidth / windowHeight;
+    var gameRatio = game.config.width / game.config.height;
+    if(windowRatio < gameRatio){
+        canvas.style.width = windowWidth + "px";
+        canvas.style.height = (windowWidth / gameRatio) + "px";
+    }
+    else{
+        canvas.style.width = (windowHeight * gameRatio) + "px";
+        canvas.style.height = windowHeight + "px";
+    }
+}
