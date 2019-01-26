@@ -129,14 +129,13 @@ window.onload = function(){
     {
         if (this.input.pointer1.isDown || cursors.left.isDown || cursors.right.isDown)
         {
-            if (this.input.pointer1.x < 540 || cursors.left.isDown){
-                player.setVelocityX(-160);
-                player.anims.play('left', true);
-            } 
             if (this.input.pointer1.x > 540 || cursors.right.isDown){
                 player.setVelocityX(160);
                 player.anims.play('right', true);
-            }
+            } else if (this.input.pointer1.x < 540 || cursors.left.isDown){
+                player.setVelocityX(-160);
+                player.anims.play('left', true);
+            } 
         } else {
             player.setVelocityX(0);
             player.anims.play('turn');
