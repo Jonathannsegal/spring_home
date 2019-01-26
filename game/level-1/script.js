@@ -29,7 +29,11 @@ var config = {
         this.load.image('ground', 'assets/platform.png');
         this.load.image('star', 'assets/star.png');
         this.load.image('bomb', 'assets/bomb.png');
-        this.load.spritesheet('dude', 'assets/dude.png', { frameWidth: 32, frameHeight: 48 });
+        this.load.image('key', 'assets/key.png');
+        this.load.image('spikes', 'assets/spikes.png');
+        this.load.spritesheet('dude', 'assets/dude.png', { frameWidth: 32, frameHeight: 32 });
+        this.load.spritesheet('spring', 'assets/Spring_Sprite.png', {frameWidth: 32, frameHeight:50});
+        this.load.spritesheet('saw', 'assets/Saw_Sprite.png', {frameWidth:52, frameHeight:52});
     }
 
     function create ()
@@ -40,14 +44,12 @@ var config = {
         platforms = this.physics.add.staticGroup();
 
         platforms.create(400, 568, 'ground').setScale(2).refreshBody();
+        platforms.create(500,300, 'ground');
 
-        platforms.create(600, 400, 'ground');
-        platforms.create(50, 250, 'ground');
-        platforms.create(750, 220, 'ground');
 
         player = this.physics.add.sprite(100, 450, 'dude');
 
-
+        player.body.setGravityY(70);
         player.setCollideWorldBounds(true);
 
         this.anims.create({
@@ -72,31 +74,46 @@ var config = {
 
         cursors = this.input.keyboard.createCursorKeys();
 
-        stars = this.physics.add.group({
-            key: 'star',
-            repeat: 11,
-            setXY: { x: 12, y: 0, stepX: 70 }
+        keys = this.physics.add.staticGroup();
+        keys.create(12,520, 'key');
+
+        spikes = this.physics.add.staticGroup();
+        spikes.create(300,520, 'spikes');
+
+        saws = this.physics.add.sprite(400,450, 'saw');
+        saws.body.allowGravity = false;
+        saws.body.setVelocityY(100);
+
+        this.anims.create({
+          key:'saw-spin',
+          frames: this.anims.generateFrameNumbers('saw', {start: 0, end: 2}),
+          frameRate: 20,
+          repeat: -1
+        })
+
+        spring = this.physics.add.sprite(200,525,'spring');
+        spring.body.allowGravity = false;
+
+
+        spring.body.setSize(32, 15, 16, 75);
+
+        this.anims.create({
+          key:'sprung',
+          frames: this.anims.generateFrameNumbers('spring', {start: 0, end: 9}),
+          frameRate: 10
         });
 
-        stars.children.iterate(function (child) {
-
-            child.setBounceY(Phaser.Math.FloatBetween(0.4, 0.8));
-            child.body.allowGravity = false;
-        });
-
-        spring = this.physics.add.staticGroup();
-
-        spring.create(400,545,'star');
-
-        this.physics.add.collider(player, spring, springUP);
+        this.physics.add.collider(player, spikes, playerDied);
+        this.physics.add.collider(player, saws, playerDied)
         this.physics.add.collider(player, platforms);
-        this.physics.add.collider(stars, platforms);
-
-        this.physics.add.overlap(player, stars, collectStar, null, this);
+        this.physics.add.overlap(saws, platforms, changeSawDirection, null, this);
+        this.physics.add.overlap(player,spring,springUP, null, this);
+        this.physics.add.overlap(player, keys, collectStar, null, this);
     }
 
     function update ()
     {
+
         if (cursors.left.isDown)
         {
             player.setVelocityX(-160);
@@ -116,16 +133,31 @@ var config = {
             player.anims.play('turn');
         }
 
+        saws.anims.play('saw-spin', true);
 
     }
 
-    function collectStar (player, star)
+    function collectStar (player, key)
     {
-        star.disableBody(true, true);
+        key.disableBody(true, true);
     }
 
-    function springUP (player)
+    function springUP (player, spring)
     {
         player.setVelocityY(-330);
+        spring.anims.play('sprung');
+    }
+
+    function playerDied(player, key)
+    {
+        location.reload();
+    }
+
+    function changeSawDirection(saw)
+    {
+        var Yvelocity = saw.body.velocity.y;
+        var Xvelocity = saw.body.velocity.x;
+        saw.setVelocityX(-Xvelocity);
+        saw.setVelocityY(-Yvelocity);
 
     }
