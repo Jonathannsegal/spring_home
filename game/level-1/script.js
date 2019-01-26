@@ -20,6 +20,7 @@ var config = {
     var stars;
     var platforms;
     var cursors;
+    var phaseBox;
 
     var game = new Phaser.Game(config);
 
@@ -27,27 +28,42 @@ var config = {
     {
         this.load.image('sky', 'assets/sky.png');
         this.load.image('ground', 'assets/platform.png');
+        this.load.image('wall', 'assets/wall.png');
         this.load.image('star', 'assets/star.png');
         this.load.image('bomb', 'assets/bomb.png');
         this.load.image('key', 'assets/key.png');
         this.load.image('spikes', 'assets/spikes.png');
+        this.load.image('phasebox','assets/Phase_Box.png');
         this.load.spritesheet('spring', 'assets/Spring_Sprite.png', {frameWidth: 32, frameHeight:50});
         this.load.spritesheet('saw', 'assets/Saw_Sprite.png', {frameWidth:52, frameHeight:52});
-        this.load.spritesheet('button', 'assets/button_sprite.png', {frameWidth:48,frameHeight:7});
+        this.load.spritesheet('button', 'assets/button_sprite.png', {frameWidth:48, frameHeight:7});
         this.load.spritesheet('dude', 'assets/dude.png', { frameWidth: 19, frameHeight: 30 });
+        this.load.spritesheet('wallBouncer', 'assets/wallBouncer_sprite.png', {frameWidth:36 , frameHeight:7});
 
     }
 
     function create ()
     {
-        this.add.image(400, 300, 'sky');
+        this.add.image(400, 300, 'sky').setScale(2);
 
 
         platforms = this.physics.add.staticGroup();
 
         platforms.create(400, 568, 'ground').setScale(2).refreshBody();
         platforms.create(500,300, 'ground');
+        platforms.create(700, 300, 'wall');
+        platforms.create(800, 300, 'wall');
 
+
+        buttons = this.physics.add.sprite(500, 535, 'button');
+        buttons.body.allowGravity = false;
+        sessionStorage.setItem('clicked', 'false');
+
+        this.anims.create({
+          key:'buttonClick',
+          frames: this.anims.generateFrameNumbers('button', {start: 0, end: 6}),
+          frameRate:10
+        });
 
         player = this.physics.add.sprite(100, 450, 'dude');
         player.body.setGravityY(70);
@@ -92,9 +108,10 @@ var config = {
           repeat: -1
         })
 
-        spring = this.physics.add.sprite(200,525,'spring');
-        spring.body.allowGravity = false;
-        spring.body.setSize(32, 15, 16, 75);
+        springs = this.physics.add.group();
+        springs.create(200, 525, 'spring').body.allowGravity=false;
+        springs.create(760, 525, 'spring').body.allowGravity=false;
+        //spring = this.physics.add.sprite(200,525,'spring');
 
         this.anims.create({
           key:'sprung',
@@ -102,25 +119,60 @@ var config = {
           frameRate: 10
         });
 
-        button = this.physics.add.sprite(500, 535, 'button');
-        button.body.allowGravity = false;
+        wallBouncerLeft = this.physics.add.group();
+        wallBouncerLeft.create(719, 400, 'wallBouncer').angle = 90;
+        wallBouncerLeft.create(719, 300, 'wallBouncer').angle = 90;
+        wallBouncerLeft.create(719, 200, 'wallBouncer').angle = 90;
+        wallBouncerLeft.create(719, 100, 'wallBouncer').angle = 90;
+
+        wallBouncerLeft.children.iterate(function (child){
+            child.body.allowGravity = false;
+        });
+
+        wallBouncerRight = this.physics.add.group();
+        wallBouncerRight.create(781, 450, 'wallBouncer').angle = 270;
+        wallBouncerRight.create(781, 350, 'wallBouncer').angle = 270;
+        wallBouncerRight.create(781, 250, 'wallBouncer').angle = 270;
+        wallBouncerRight.create(781, 150, 'wallBouncer').angle = 270;
+
+        wallBouncerRight.children.iterate(function (child){
+            child.body.allowGravity = false;
+        });
 
         this.anims.create({
-          key:'clicked',
-          frames: this.anims.generateFrameNumbers('button', {start: 0, end: 6}),
-          frameRate:10
-        })
+            key: 'bounced',
+            frames: this.anims.generateFrameNumbers('wallBouncer', {start: 0, end: 4}),
+            frameRate: 10
+        });
+
+        phaseBox = this.physics.add.staticGroup({
+            key:'phasebox',
+            repeat: 4,
+            setXY: {x: 600, y: 400, stepY:32}
+        });
+
 
         this.physics.add.collider(player, spikes, playerDied);
         this.physics.add.collider(player, saws, playerDied)
         this.physics.add.collider(player, platforms);
+        this.physics.add.collider(player, phaseBox);
         this.physics.add.overlap(saws, platforms, changeSawDirection, null, this);
-        this.physics.add.overlap(player,spring,springUP, null, this);
-        this.physics.add.overlap(player, keys, collectStar, null, this);
+        this.physics.add.overlap(player,springs,springUP, null, this);
+        this.physics.add.overlap(player, keys, collectKey, null, this);
+        this.physics.add.overlap(player, buttons, buttonClicked, null, this);
+        this.physics.add.overlap(player, wallBouncerLeft, bouncerLeft);
+        this.physics.add.overlap(player, wallBouncerRight, bouncerRight);
     }
 
     function update ()
     {
+        if(sessionStorage.getItem('clicked') == 'true'){
+
+              phaseBox.children.iterate(function(child){
+                child.disableBody(true,true);
+              })
+
+        }
 
         if (cursors.left.isDown)
         {
@@ -136,16 +188,23 @@ var config = {
         }
         else
         {
-            player.setVelocityX(0);
+            if(player.x < 716 || player.x > 800){
+              player.setVelocityX(0);
+            }
 
             player.anims.play('turn');
         }
+
+        if (cursors.up.isDown && player.body.touching.down)
+{
+    player.setVelocityY(-330);
+}
 
         saws.anims.play('saw-spin', true);
 
     }
 
-    function collectStar (player, key)
+    function collectKey (player, key)
     {
         key.disableBody(true, true);
     }
@@ -156,8 +215,9 @@ var config = {
         spring.anims.play('sprung');
     }
 
-    function playerDied(player, key)
+    function playerDied()
     {
+        sessionStorage.setItem('clicked', 'false');
         location.reload();
     }
 
@@ -168,4 +228,23 @@ var config = {
         saw.setVelocityX(-Xvelocity);
         saw.setVelocityY(-Yvelocity);
 
+    }
+
+    function buttonClicked(player, button, phaseBox){
+        if(sessionStorage.getItem('clicked') == 'false'){
+          button.anims.play('buttonClick');
+          sessionStorage.setItem('clicked', 'true');
+        }
+    }
+
+    function bouncerLeft(player, bouncer){
+      player.setVelocityX(160);
+      player.setVelocityY(-300);
+      bouncer.anims.play('bounced');
+    }
+
+    function bouncerRight(player, bouncer){
+      player.setVelocityX(-160);
+      player.setVelocityY(-300);
+      bouncer.anims.play('bounced');
     }
