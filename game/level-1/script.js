@@ -31,10 +31,10 @@ var config = {
         this.load.image('bomb', 'assets/bomb.png');
         this.load.image('key', 'assets/key.png');
         this.load.image('spikes', 'assets/spikes.png');
-        this.load.spritesheet('dude', 'assets/dude.png', { frameWidth: 19, frameHeight: 30 });
         this.load.spritesheet('spring', 'assets/Spring_Sprite.png', {frameWidth: 32, frameHeight:50});
         this.load.spritesheet('saw', 'assets/Saw_Sprite.png', {frameWidth:52, frameHeight:52});
-        //this.load.spritesheet('button', ass)
+        this.load.spritesheet('button', 'assets/button_sprite.png', {frameWidth:48,frameHeight:7});
+        this.load.spritesheet('dude', 'assets/dude.png', { frameWidth: 19, frameHeight: 30 });
 
     }
 
@@ -102,7 +102,14 @@ var config = {
           frameRate: 10
         });
 
-        //button = this.physics.add.sprite(500, 520, 'button');
+        button = this.physics.add.sprite(500, 535, 'button');
+        button.body.allowGravity = false;
+
+        this.anims.create({
+          key:'clicked',
+          frames: this.anims.generateFrameNumbers('button', {start: 0, end: 6}),
+          frameRate:10
+        })
 
         this.physics.add.collider(player, spikes, playerDied);
         this.physics.add.collider(player, saws, playerDied)
