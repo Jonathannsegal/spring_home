@@ -252,11 +252,11 @@ window.onload = function(){
 
     function update ()
     {
-        if(sessionStorage.getItem('clicked') == 'true'){
+        /*if(sessionStorage.getItem('clicked') == 'true'){
             phaseBox.children.iterate(function(child){
                 child.disableBody(true, true);
             });
-        }
+        }*/
 
         if(player.y<-10 && player.x > 40 && player.x < 100){
 

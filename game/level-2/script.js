@@ -273,11 +273,11 @@ window.onload = function(){
 
     function update ()
     {
-        if(sessionStorage.getItem('clicked') == 'true'){
+        /*if(sessionStorage.getItem('clicked') == 'true'){
             phaseBox.children.iterate(function(child){
                 child.disableBody(true, true);
             });
-        }
+        }*/
         if(player.x < 716 || player.x > 800){
             if (this.input.pointer1.isDown || cursors.left.isDown || cursors.right.isDown)
             {
