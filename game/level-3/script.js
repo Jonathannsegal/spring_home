@@ -162,12 +162,12 @@ window.onload = function(){
         spikes.create(460,364, 'spikes');
         spikes.create(300,364, 'spikes');
         spikes.create(230,364, 'spikes');
-        spikes.create(405,-115, 'spikes');
-        spikes.create(375,-115, 'spikes');
-        spikes.create(345,-115, 'spikes');
-        spikes.create(445,-115, 'spikes');
-        spikes.create(475,-115, 'spikes');
-        spikes.create(505,-115, 'spikes');
+        spikes.create(385,-115, 'spikes');
+        spikes.create(355,-115, 'spikes');
+        spikes.create(325,-115, 'spikes');
+        spikes.create(465,-115, 'spikes');
+        spikes.create(495,-115, 'spikes');
+        spikes.create(525,-115, 'spikes');
 
         springs = this.physics.add.group();
         springs.create(1075, 525, 'spring').body.allowGravity = false;
