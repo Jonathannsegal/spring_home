@@ -13,6 +13,9 @@ var config = {
             preload: preload,
             create: create,
             update: update
+        },
+        audio: {
+            disableWebAudio: true
         }
     };
 
@@ -28,6 +31,8 @@ window.onload = function(){
 }
     function preload ()
     {
+        this.load.audio('background', ['assets/audio/Team7.wav']);
+
         this.load.image('ground', 'assets/platform.png');
         this.load.image('wall', 'assets/wall.png');
         this.load.image('key', 'assets/key.png');
@@ -43,6 +48,9 @@ window.onload = function(){
 
     function create ()
     {
+        var music = this.sound.add('background', 1, true);
+        // music = new Phaser.Sound(game,'background',1,true);
+        music.play();
         this.input.addPointer(1);
         cursors = this.input.keyboard.createCursorKeys();
 
