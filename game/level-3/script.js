@@ -339,6 +339,7 @@ window.onload = function(){
       function winRound(){
           if(sessionStorage.getItem('key') == 'true'){
               console.log("You win");
+              window.location.replace(`http://${window.location.host}/level-4`);
           }
       }
 
