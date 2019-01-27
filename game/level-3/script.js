@@ -30,8 +30,8 @@ window.onload = function(){
     {
         this.load.image('ground', 'assets/platform.png');
         this.load.image('wall', 'assets/wall.png');
-        this.load.image('key', 'assets/key.png');
-        this.load.image('spikes', 'assets/spikes.png');
+        this.load.image('key', 'assets/Key.png');
+        this.load.image('spikes', 'assets/Spikes.png');
         this.load.image('phasebox','assets/Phase_Box.png');
         this.load.image('goal', 'assets/goal.png');
         this.load.spritesheet('spring', 'assets/Spring_Sprite.png', {frameWidth: 32, frameHeight:50});
