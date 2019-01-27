@@ -5,7 +5,7 @@ var config = {
         physics: {
             default: 'arcade',
             arcade: {
-                gravity: { y: 200 },
+                gravity: { y: 300 },
                 debug: false
             }
         },
@@ -54,19 +54,37 @@ window.onload = function(){
         this.input.addPointer(1);
         cursors = this.input.keyboard.createCursorKeys();
 
-        this.cameras.main.setBackgroundColor('#8B0000');
+        this.cameras.main.setBackgroundColor('#9aece1');
         ground1 = this.physics.add.staticGroup({
           key:'ground',
-          repeat: 24,
+          repeat: 80,
           scale: 2,
-          setXY: {x:16, y:556, stepX:32}
+          setXY: {x:-500, y:556, stepX:32}
         });
 
 
         ground2 = this.physics.add.staticGroup({
             key:'ground',
             repeat:12,
-            setXY: {x:284, y:300, stepX:32}
+            setXY: {x:254, y:-50, stepX:32}
+        });
+
+        ground3 = this.physics.add.staticGroup({
+            key:'ground',
+            repeat:12,
+            setXY: {x:354, y:-150, stepX:32}
+        });
+
+        ground4 = this.physics.add.staticGroup({
+            key:'ground',
+            repeat:5,
+            setXY: {x:854, y:-850, stepX:32}
+        });
+
+        ground5 = this.physics.add.staticGroup({
+            key:'ground',
+            repeat:15,
+            setXY: {x:254, y:-950, stepX:32}
         });
 
         wall1 = this.physics.add.staticGroup({
@@ -81,24 +99,54 @@ window.onload = function(){
             setXY:{x:800,y:36,stepY:32}
         });
 
+        wall3 = this.physics.add.staticGroup({
+            key:'ground',
+            repeat:12,
+            setXY:{x:700,y:-650,stepY:32}
+        });
+
+        wall4 = this.physics.add.staticGroup({
+            key:'ground',
+            repeat:16,
+            setXY:{x:800,y:-700,stepY:32}
+        });
+
+        wall5 = this.physics.add.staticGroup({
+            key:'ground',
+            repeat:12,
+            setXY:{x:700,y:-650,stepY:32}
+        });
+
+        wall6 = this.physics.add.staticGroup({
+            key:'ground',
+            repeat:16,
+            setXY:{x:800,y:-700,stepY:32}
+        });
+
         //platforms.create(400, 568, 'ground').setScale(2).refreshBody();
         //platforms.create(500,300, 'ground');
 
 
 
-        buttons = this.physics.add.sprite(500, 535, 'button');
-        buttons.body.allowGravity = false;
-        sessionStorage.setItem('clicked', 'false');
+        // buttons = this.physics.add.sprite(500, 535, 'button');
+        // buttons.body.allowGravity = false;
+        // sessionStorage.setItem('clicked', 'false');
 
-        this.anims.create({
-            key:'buttonClicked',
-            frames: this.anims.generateFrameNumbers('button', {start: 0, end: 6}),
-            frameRate:10
-          })
+        // this.anims.create({
+        //     key:'buttonClicked',
+        //     frames: this.anims.generateFrameNumbers('button', {start: 0, end: 6}),
+        //     frameRate:10
+        //   })
+
+        //   phaseBox = this.physics.add.staticGroup({
+        //     key:'phasebox',
+        //     repeat: 4,
+        //     setXY: {x: 600, y: 400, stepY:32}
+        // });
 
         player = this.physics.add.sprite(100, 450, 'dude');
-        player.body.setGravityY(66);
-        player.setCollideWorldBounds(true);
+        player.body.setGravityY(70);
+        // player.setCollideWorldBounds(true);
 
         this.cameras.main.startFollow(player, true);
 
@@ -123,34 +171,36 @@ window.onload = function(){
         });
 
         keys = this.physics.add.staticGroup();
-        keys.create(12,520, 'key');
+        keys.create(90,-120, 'key');
 
         spikes = this.physics.add.staticGroup();
-        spikes.create(300,520, 'spikes');
-        spikes.create(330,520, 'spikes');
-        spikes.create(330,400, 'spikes');
+        // spikes.create(300,520, 'spikes');
 
-        saws = this.physics.add.sprite(400,450, 'saw');
-        saws.body.allowGravity = false;
-        saws.body.setVelocityY(100);
-        sawsTwo = this.physics.add.sprite(450,450, 'saw');
-        saws.body.allowGravity = false;
-        saws.body.setVelocityY(100);
-        sawsThree = this.physics.add.sprite(470,450, 'saw');
-        saws.body.allowGravity = false;
-        saws.body.setVelocityY(100);
+        // saws = this.physics.add.sprite(400,450, 'saw');
+        // saws.body.allowGravity = false;
+        // saws.body.setVelocityY(100);
 
-
-        this.anims.create({
-          key:'saw-spin',
-          frames: this.anims.generateFrameNumbers('saw', {start: 0, end: 2}),
-          frameRate: 20,
-          repeat: -1
-        })
+        // this.anims.create({
+        //   key:'saw-spin',
+        //   frames: this.anims.generateFrameNumbers('saw', {start: 0, end: 2}),
+        //   frameRate: 20,
+        //   repeat: -1
+        // })
 
         springs = this.physics.add.group();
+        springs.create(300, 525, 'spring').body.allowGravity = false;
         springs.create(200, 525, 'spring').body.allowGravity = false;
+        springs.create(400, 525, 'spring').body.allowGravity = false;
+        springs.create(500, 525, 'spring').body.allowGravity = false;
+        springs.create(600, 525, 'spring').body.allowGravity = false;
+        springs.create(900, 525, 'spring').body.allowGravity = false;
+        springs.create(1000, 525, 'spring').body.allowGravity = false;
         springs.create(760, 525, 'spring').body.allowGravity = false;
+        springs.create(800, -735, 'spring').body.allowGravity = false;
+        springs.create(1000, -883, 'spring').body.allowGravity = false;
+        springs.create(700, 68, 'spring').body.allowGravity = false;
+        springs.create(300, -085, 'spring').body.allowGravity = false;
+        springs.create(730, -185, 'spring').body.allowGravity = false;
 
         this.anims.create({
           key:'sprung',
@@ -164,6 +214,11 @@ window.onload = function(){
         wallBouncerLeft.create(722, 200, 'wallBouncer').angle = 90;
         wallBouncerLeft.create(722, 100, 'wallBouncer').angle = 90;
 
+        wallBouncerLeft.create(722, -600, 'wallBouncer').angle = 90;
+        wallBouncerLeft.create(722, -500, 'wallBouncer').angle = 90;
+        wallBouncerLeft.create(722, -400, 'wallBouncer').angle = 90;
+        wallBouncerLeft.create(722, -300, 'wallBouncer').angle = 90;
+
         wallBouncerLeft.children.iterate(function (child){
             child.body.allowGravity = false;
         });
@@ -175,6 +230,12 @@ window.onload = function(){
         wallBouncerRight.create(778, 150, 'wallBouncer').angle = 270;
         wallBouncerRight.create(778, 50, 'wallBouncer').angle = 270;
 
+        wallBouncerRight.create(778, -650, 'wallBouncer').angle = 270;
+        wallBouncerRight.create(778, -550, 'wallBouncer').angle = 270;
+        wallBouncerRight.create(778, -450, 'wallBouncer').angle = 270;
+        wallBouncerRight.create(778, -350, 'wallBouncer').angle = 270;
+        wallBouncerRight.create(778, -250, 'wallBouncer').angle = 270;
+
         wallBouncerRight.children.iterate(function (child){
             child.body.allowGravity = false;
         });
@@ -185,33 +246,26 @@ window.onload = function(){
             frameRate: 10
         });
 
-        phaseBox = this.physics.add.staticGroup({
-            key:'phasebox',
-            repeat: 4,
-            setXY: {x: 600, y: 400, stepY:32}
-        });
-
         goal = this.physics.add.staticGroup();
-        goal.create(500, 255, 'goal');
+        goal.create(500, -995, 'goal');
 
         this.physics.add.collider(player, spikes, playerDied);
-        this.physics.add.collider(player, saws, playerDied);
-        this.physics.add.collider(player, sawsTwo, playerDied);
-        this.physics.add.collider(player, sawsThree, playerDied);
+        // this.physics.add.collider(player, saws, playerDied);
         this.physics.add.collider(player, ground1);
         this.physics.add.collider(player, ground2);
+        this.physics.add.collider(player, ground3);
+        this.physics.add.collider(player, ground4);
+        this.physics.add.collider(player, ground5);
         this.physics.add.collider(player, wall1);
         this.physics.add.collider(player, wall2);
-        this.physics.add.collider(player, phaseBox);
-        this.physics.add.overlap(saws, ground1, changeSawDirection, null, this);
-        this.physics.add.overlap(saws, ground2, changeSawDirection, null, this);
-        this.physics.add.overlap(sawsTwo, ground1, changeSawDirection, null, this);
-        this.physics.add.overlap(sawsTwo, ground2, changeSawDirection, null, this);
-        this.physics.add.overlap(sawsThree, ground1, changeSawDirection, null, this);
-        this.physics.add.overlap(sawsThree, ground2, changeSawDirection, null, this);
+        this.physics.add.collider(player, wall3);
+        this.physics.add.collider(player, wall4);
+        // this.physics.add.collider(player, phaseBox);
+        // this.physics.add.overlap(saws, ground1, changeSawDirection, null, this);
+        // this.physics.add.overlap(saws, ground2, changeSawDirection, null, this);
         this.physics.add.overlap(player,springs,springUP, null, this);
         this.physics.add.overlap(player, keys, collectStar, null, this);
-        this.physics.add.overlap(player, buttons, buttonClicked, null, this);
+        // this.physics.add.overlap(player, buttons, buttonClicked, null, this);
         this.physics.add.overlap(player, wallBouncerLeft, bouncerLeft);
         this.physics.add.overlap(player, wallBouncerRight, bouncerRight);
         this.physics.add.overlap(player, goal, winRound);
@@ -241,7 +295,7 @@ window.onload = function(){
                 }
         }
 
-        saws.anims.play('saw-spin', true);
+        // saws.anims.play('saw-spin', true);
 
     }
 
@@ -295,6 +349,7 @@ window.onload = function(){
       function winRound(){
           if(sessionStorage.getItem('key') == 'true'){
               console.log("You win");
+              window.location.replace(`http://${window.location.host}/level-3`);
           }
       }
 
