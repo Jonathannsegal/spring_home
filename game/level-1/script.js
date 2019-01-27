@@ -33,6 +33,7 @@ window.onload = function(){
         this.load.image('key', 'assets/key.png');
         this.load.image('spikes', 'assets/spikes.png');
         this.load.image('phasebox','assets/Phase_Box.png');
+        this.load.image('goal', 'assets/goal.png');
         this.load.spritesheet('spring', 'assets/Spring_Sprite.png', {frameWidth: 32, frameHeight:50});
         this.load.spritesheet('saw', 'assets/Saw_Sprite.png', {frameWidth:52, frameHeight:52});
         this.load.spritesheet('button', 'assets/button_sprite.png', {frameWidth:48,frameHeight:7});
@@ -45,13 +46,37 @@ window.onload = function(){
         this.input.addPointer(1);
         cursors = this.input.keyboard.createCursorKeys();
 
-        this.cameras.main.setBackgroundColor('#9aece1'); 
-        platforms = this.physics.add.staticGroup();
+        this.cameras.main.setBackgroundColor('#9aece1');
+        ground1 = this.physics.add.staticGroup({
+          key:'ground',
+          repeat: 24,
+          scale: 2,
+          setXY: {x:16, y:556, stepX:32}
+        });
 
-        platforms.create(400, 568, 'ground').setScale(2).refreshBody();
-        platforms.create(500,300, 'ground');
-        platforms.create(700,300, 'wall');
-        platforms.create(800,300, 'wall');
+
+        ground2 = this.physics.add.staticGroup({
+            key:'ground',
+            repeat:12,
+            setXY: {x:284, y:300, stepX:32}
+        });
+
+        wall1 = this.physics.add.staticGroup({
+            key:'ground',
+            repeat:12,
+            setXY:{x:700,y:100,stepY:32}
+        });
+
+        wall2 = this.physics.add.staticGroup({
+            key:'ground',
+            repeat:14,
+            setXY:{x:800,y:36,stepY:32}
+        });
+
+        //platforms.create(400, 568, 'ground').setScale(2).refreshBody();
+        //platforms.create(500,300, 'ground');
+
+
 
         buttons = this.physics.add.sprite(500, 535, 'button');
         buttons.body.allowGravity = false;
@@ -117,20 +142,21 @@ window.onload = function(){
         });
 
         wallBouncerLeft = this.physics.add.group();
-        wallBouncerLeft.create(719, 400, 'wallBouncer').angle = 90;
-        wallBouncerLeft.create(719, 300, 'wallBouncer').angle = 90;
-        wallBouncerLeft.create(719, 200, 'wallBouncer').angle = 90;
-        wallBouncerLeft.create(719, 100, 'wallBouncer').angle = 90;
+        wallBouncerLeft.create(722, 400, 'wallBouncer').angle = 90;
+        wallBouncerLeft.create(722, 300, 'wallBouncer').angle = 90;
+        wallBouncerLeft.create(722, 200, 'wallBouncer').angle = 90;
+        wallBouncerLeft.create(722, 100, 'wallBouncer').angle = 90;
 
         wallBouncerLeft.children.iterate(function (child){
             child.body.allowGravity = false;
         });
 
         wallBouncerRight = this.physics.add.group();
-        wallBouncerRight.create(781, 450, 'wallBouncer').angle = 270;
-        wallBouncerRight.create(781, 350, 'wallBouncer').angle = 270;
-        wallBouncerRight.create(781, 250, 'wallBouncer').angle = 270;
-        wallBouncerRight.create(781, 150, 'wallBouncer').angle = 270;
+        wallBouncerRight.create(778, 450, 'wallBouncer').angle = 270;
+        wallBouncerRight.create(778, 350, 'wallBouncer').angle = 270;
+        wallBouncerRight.create(778, 250, 'wallBouncer').angle = 270;
+        wallBouncerRight.create(778, 150, 'wallBouncer').angle = 270;
+        wallBouncerRight.create(778, 50, 'wallBouncer').angle = 270;
 
         wallBouncerRight.children.iterate(function (child){
             child.body.allowGravity = false;
@@ -148,16 +174,24 @@ window.onload = function(){
             setXY: {x: 600, y: 400, stepY:32}
         });
 
+        goal = this.physics.add.staticGroup();
+        goal.create(500, 255, 'goal');
+
         this.physics.add.collider(player, spikes, playerDied);
         this.physics.add.collider(player, saws, playerDied);
-        this.physics.add.collider(player, platforms);
+        this.physics.add.collider(player, ground1);
+        this.physics.add.collider(player, ground2);
+        this.physics.add.collider(player, wall1);
+        this.physics.add.collider(player, wall2);
         this.physics.add.collider(player, phaseBox);
-        this.physics.add.overlap(saws, platforms, changeSawDirection, null, this);
+        this.physics.add.overlap(saws, ground1, changeSawDirection, null, this);
+        this.physics.add.overlap(saws, ground2, changeSawDirection, null, this);
         this.physics.add.overlap(player,springs,springUP, null, this);
         this.physics.add.overlap(player, keys, collectStar, null, this);
         this.physics.add.overlap(player, buttons, buttonClicked, null, this);
         this.physics.add.overlap(player, wallBouncerLeft, bouncerLeft);
         this.physics.add.overlap(player, wallBouncerRight, bouncerRight);
+        this.physics.add.overlap(player, goal, winRound);
     }
 
     function update ()
@@ -167,20 +201,21 @@ window.onload = function(){
                 child.disableBody(true, true);
             });
         }
-        if (this.input.pointer1.isDown || cursors.left.isDown || cursors.right.isDown)
-        {
-            if (this.input.pointer1.x > 540 || cursors.right.isDown){
-                player.setVelocityX(160);
-                player.anims.play('right', true);
-            } else if (this.input.pointer1.x < 540 || cursors.left.isDown){
-                player.setVelocityX(-160);
-                player.anims.play('left', true);
-            } 
-        } else {
-            if(player.x < 716 || player.x > 800){
-                player.setVelocityX(0);
-                player.anims.play('turn');
-            }
+        if(player.x < 716 || player.x > 800){
+            if (this.input.pointer1.isDown || cursors.left.isDown || cursors.right.isDown)
+            {
+                if (this.input.pointer1.x > 540 || cursors.right.isDown){
+                    player.setVelocityX(160);
+                    player.anims.play('right', true);
+                } else if (this.input.pointer1.x < 540 || cursors.left.isDown){
+                    player.setVelocityX(-160);
+                    player.anims.play('left', true);
+                }
+            } else {
+
+                    player.setVelocityX(0);
+                    player.anims.play('turn');
+                }
         }
 
         saws.anims.play('saw-spin', true);
@@ -190,6 +225,7 @@ window.onload = function(){
     function collectStar (player, key)
     {
         key.disableBody(true, true);
+        sessionStorage.setItem('key', 'true');
     }
 
     function springUP (player, spring)
@@ -201,6 +237,8 @@ window.onload = function(){
     function playerDied(player, key)
     {
         location.reload();
+        sessionStorage.setItem('key', 'false');
+        sessionStorage.setItem('clicked', 'false');
     }
 
     function changeSawDirection(saw)
@@ -224,11 +262,17 @@ window.onload = function(){
         player.setVelocityY(-300);
         bouncer.anims.play('bounced');
       }
-  
+
       function bouncerRight(player, bouncer){
         player.setVelocityX(-160);
         player.setVelocityY(-300);
         bouncer.anims.play('bounced');
+      }
+
+      function winRound(){
+          if(sessionStorage.getItem('key') == 'true'){
+              console.log("You win");
+          }
       }
 
 function resize() {
