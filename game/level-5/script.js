@@ -57,9 +57,9 @@ window.onload = function(){
         this.cameras.main.setBackgroundColor('#9aece1');
         ground1 = this.physics.add.staticGroup({
           key:'ground',
-          repeat: 24,
+          repeat: 500,
           scale: 2,
-          setXY: {x:16, y:556, stepX:32}
+          setXY: {x:-1800, y:556, stepX:32}
         });
 
 
@@ -96,9 +96,9 @@ window.onload = function(){
             frameRate:10
           })
 
-        player = this.physics.add.sprite(100, 450, 'dude');
+        player = this.physics.add.sprite(-1700, 450, 'dude');
         player.body.setGravityY(70);
-        player.setCollideWorldBounds(true);
+        // player.setCollideWorldBounds(true);
 
         this.cameras.main.startFollow(player, true);
 
