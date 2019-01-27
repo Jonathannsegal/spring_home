@@ -5,7 +5,7 @@ var config = {
         physics: {
             default: 'arcade',
             arcade: {
-                gravity: { y: 200 },
+                gravity: { y: 300 },
                 debug: false
             }
         },
@@ -54,7 +54,7 @@ window.onload = function(){
         this.input.addPointer(1);
         cursors = this.input.keyboard.createCursorKeys();
 
-        this.cameras.main.setBackgroundColor('#8B0000');
+        this.cameras.main.setBackgroundColor('#9aece1');
         ground1 = this.physics.add.staticGroup({
           key:'ground',
           repeat: 24,
@@ -97,7 +97,7 @@ window.onload = function(){
           })
 
         player = this.physics.add.sprite(100, 450, 'dude');
-        player.body.setGravityY(66);
+        player.body.setGravityY(70);
         player.setCollideWorldBounds(true);
 
         this.cameras.main.startFollow(player, true);
@@ -127,19 +127,10 @@ window.onload = function(){
 
         spikes = this.physics.add.staticGroup();
         spikes.create(300,520, 'spikes');
-        spikes.create(330,520, 'spikes');
-        spikes.create(330,400, 'spikes');
 
         saws = this.physics.add.sprite(400,450, 'saw');
         saws.body.allowGravity = false;
         saws.body.setVelocityY(100);
-        sawsTwo = this.physics.add.sprite(450,450, 'saw');
-        saws.body.allowGravity = false;
-        saws.body.setVelocityY(100);
-        sawsThree = this.physics.add.sprite(470,450, 'saw');
-        saws.body.allowGravity = false;
-        saws.body.setVelocityY(100);
-
 
         this.anims.create({
           key:'saw-spin',
@@ -196,8 +187,6 @@ window.onload = function(){
 
         this.physics.add.collider(player, spikes, playerDied);
         this.physics.add.collider(player, saws, playerDied);
-        this.physics.add.collider(player, sawsTwo, playerDied);
-        this.physics.add.collider(player, sawsThree, playerDied);
         this.physics.add.collider(player, ground1);
         this.physics.add.collider(player, ground2);
         this.physics.add.collider(player, wall1);
@@ -205,10 +194,6 @@ window.onload = function(){
         this.physics.add.collider(player, phaseBox);
         this.physics.add.overlap(saws, ground1, changeSawDirection, null, this);
         this.physics.add.overlap(saws, ground2, changeSawDirection, null, this);
-        this.physics.add.overlap(sawsTwo, ground1, changeSawDirection, null, this);
-        this.physics.add.overlap(sawsTwo, ground2, changeSawDirection, null, this);
-        this.physics.add.overlap(sawsThree, ground1, changeSawDirection, null, this);
-        this.physics.add.overlap(sawsThree, ground2, changeSawDirection, null, this);
         this.physics.add.overlap(player,springs,springUP, null, this);
         this.physics.add.overlap(player, keys, collectStar, null, this);
         this.physics.add.overlap(player, buttons, buttonClicked, null, this);
@@ -295,7 +280,7 @@ window.onload = function(){
       function winRound(){
           if(sessionStorage.getItem('key') == 'true'){
               console.log("You win");
-              window.location.replace(`http://${window.location.host}/win`);
+                  window.location.replace(`http://${window.location.host}/win`);
           }
       }
 
