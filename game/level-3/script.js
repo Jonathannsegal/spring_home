@@ -73,8 +73,14 @@ window.onload = function(){
 
         ground5 = this.physics.add.staticGroup({
           key:'ground',
-          repeat: 20,
-          setXY: {x:292, y:-81, stepX:39}
+          repeat: 3,
+          setXY: {x:292, y:-81, stepX:29}
+        });
+
+        ground6 = this.physics.add.staticGroup({
+          key:'ground',
+          repeat: 5,
+          setXY: {x:469, y:-81, stepX:30}
         });
 
         wall1 = this.physics.add.staticGroup({
@@ -89,7 +95,7 @@ window.onload = function(){
             setXY:{x:120,y:-660,stepY:39}
         });
 
-        player = this.physics.add.sprite(100, 500, 'dude');
+        player = this.physics.add.sprite(100, 100, 'dude');
         player.body.setGravityY(70);
         player.setCollideWorldBounds(false);
 
