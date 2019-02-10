@@ -20,4 +20,4 @@ Start Server
 
 Attach proxy to port 2222
 
-`lt -port 2222`
+`lt --port 2222`
