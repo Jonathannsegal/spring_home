@@ -1,8 +1,10 @@
 # Spring Home 🏠
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](https://opensource.org/licenses/MIT) 
-![Heroku](http://heroku-badge.herokuapp.com/?app=springhome&style=flat&svg=1)
+[![Heroku](http://heroku-badge.herokuapp.com/?app=springhome&style=flat&svg=1)](https://springhome.herokuapp.com/menu/)
 [![HitCount](http://hits.dwyl.com/jonathannsegal/spring_home.svg)](http://hits.dwyl.com/jonathannsegal/spring_home)
+[![Play Now](https://img.shields.io/badge/Play-Now-green)](https://springhome.herokuapp.com/menu/)
+
 
 
 ![Sprite](https://drive.google.com/uc?id=1qjPtzDwDRxXWfSsHycLLjXeMSVbYqLJu)
