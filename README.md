@@ -55,7 +55,7 @@ The controlls also work on touch screens
 - Yes the hitboxes are too big
 - You might need to touch the house and move the charachter outside the house to trigger next level.
 
-<a href="https://globalgamejam.org/2019/games/spring-home"><img height="100px" src="https://s3-us-west-1.amazonaws.com/ggj/site/site-images/GGJ00_Logo_Light.png"/></a>
+<a href="https://globalgamejam.org/2019/games/spring-home"><img height="100px" src="https://s3-us-west-1.amazonaws.com/ggj/site/site-images/GGJ00_Logo_Dark.svg"/></a>
 
 ---
 
