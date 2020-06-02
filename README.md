@@ -1,7 +1,7 @@
 # Spring Home 🏠
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](https://opensource.org/licenses/MIT) 
-[![Heroku](http://heroku-badge.herokuapp.com/?app=springhome&style=flat&svg=1)]
+![Heroku](http://heroku-badge.herokuapp.com/?app=springhome&style=flat&svg=1)
 [![HitCount](http://hits.dwyl.com/jonathannsegal/spring_home.svg)](http://hits.dwyl.com/jonathannsegal/spring_home)
 
 
