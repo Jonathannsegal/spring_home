@@ -17,6 +17,6 @@
   },
   "homepage": "https://github.com/Jonathannsegal/Marston_2300_Team_7#readme",
   "dependencies": {
-    "express": "^4.16.4"
+    "express": "^4.17.3"
   }
 }
