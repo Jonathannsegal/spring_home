@@ -1,9 +1,9 @@
 # Spring Home 🏠
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](https://opensource.org/licenses/MIT) 
-[![Heroku](http://heroku-badge.herokuapp.com/?app=springhome&style=flat&svg=1)](https://springhome.herokuapp.com/menu/)
+[![Vercel](https://img.shields.io/badge/deployed-Vercel-black)](https://spring-home-six.vercel.app/menu/)
 [![HitCount](http://hits.dwyl.com/jonathannsegal/spring_home.svg)](http://hits.dwyl.com/jonathannsegal/spring_home)
-[![Play Now](https://img.shields.io/badge/Play-Now-green)](https://springhome.herokuapp.com/menu/)
+[![Play Now](https://img.shields.io/badge/Play-Now-green)](https://spring-home-six.vercel.app/menu/)
 
 
 
@@ -24,7 +24,7 @@ $ node server
 
 ## Local Tunnel 📲
 
-If local tunnel is not working download ngrok to acomplish the same thing: [ngrok](https://ngrok.com/)
+If LocalTunnel is unavailable, [ngrok](https://ngrok.com/) can provide the same kind of temporary public URL.
 
 ```bash
 $ cd spring_home
@@ -36,7 +36,7 @@ $ copy link and open on other device
 
 ![Gameplay](https://drive.google.com/uc?id=1E-g50I71tHT1ZjQtWxgCQla-JXa7QFYA)
 
-## Controlls 🕹️
+## Controls 🕹️
 
 <img height="100px" src="https://ya-webdesign.com/transparent450_/rightarrow-keys-png-16.png"/>
 
@@ -44,9 +44,9 @@ $ copy link and open on other device
 - Arrow keys to move right and left
 - Get the key and go to the house to go to the next level
 
-The controlls also work on touch screens
+The controls also work on touch screens.
 - The left side and right side are large triggers
-- Optimal controlls is tap and hold on the side you want to move to
+- For best results, tap and hold the side you want to move toward.
 
 
 # Development 👨‍💻
@@ -55,7 +55,7 @@ The controlls also work on touch screens
 
 ## Known Issues 🤫
 - Yes the hitboxes are too big
-- You might need to touch the house and move the charachter outside the house to trigger next level.
+- You might need to touch the house and move the character outside it to trigger the next level.
 
 <a href="https://globalgamejam.org/2019/games/spring-home"><img height="100px" src="https://s3-us-west-1.amazonaws.com/ggj/site/site-images/GGJ00_Logo_Dark.svg"/></a>
 
